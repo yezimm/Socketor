@@ -44,7 +44,7 @@ final public class SocketorServer extends SocketotBase {
                     } catch (IOException e) {
                         e.printStackTrace();
                         if (listener != null) {
-                            listener.onException("Server socket 异常退出");
+                            listener.disconnect("Server socket disconnect");
                         }
                     }
                 }

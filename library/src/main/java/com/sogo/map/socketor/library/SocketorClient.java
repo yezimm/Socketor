@@ -5,6 +5,8 @@ import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,7 +38,7 @@ final public class SocketorClient extends SocketotBase {
         return this;
     }
 
-    public SocketorClient sendMessage(@SocketorConfig.SwitchType int switchType, String message) {
+    public SocketorClient sendMessage(@NonNull SocketorMessage socketorMessage) {
         final WifiManager myWifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (myWifiManager == null) {
             Log.e(TAG, "Wifi Manager 获取不到");
@@ -47,7 +49,7 @@ final public class SocketorClient extends SocketotBase {
         }
         ClientAsyncTask clientAST = new ClientAsyncTask(listener);
         clientAST.execute(parseIPByInt(myWifiManager.getDhcpInfo().gateway), String.valueOf(SERVER_PORT),
-                SocketorMessage.obtain(switchType, message).toJson());
+                socketorMessage.toJson());
         return this;
     }
 

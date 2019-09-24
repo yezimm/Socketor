@@ -5,7 +5,12 @@ import androidx.annotation.NonNull;
 public interface SocketorServerListener {
 
     /**
-     * 异常
+     * socket server 异常退出，断开连接
+     */
+    void disconnect(String message);
+
+    /**
+     * IO异常
      */
     void onException(String message);
 
