@@ -43,6 +43,9 @@ final public class SocketorServer extends SocketotBase {
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
+                        if (listener != null) {
+                            listener.onException("Server socket 异常退出");
+                        }
                     }
                 }
             });
@@ -76,7 +79,7 @@ final public class SocketorServer extends SocketotBase {
 
         @Override
         protected SocketorMessage doInBackground(Socket... params) {
-            String result = null;
+            String result;
             Socket mySocket = params[0];
             try {
 
@@ -101,8 +104,11 @@ final public class SocketorServer extends SocketotBase {
 
         @Override
         protected void onPostExecute(SocketorMessage message) {
-            if (listener != null) {
-                listener.handleSocketorMessage(message);
+            if (listener != null && message != null) {
+                if (STATUS_FAILED == message.getStatus())
+                    listener.onException(message.getMessage());
+                else
+                    listener.handleSocketorMessage(message);
             }
 
         }
