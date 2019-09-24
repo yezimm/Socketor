@@ -13,6 +13,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import static com.sogo.map.socketor.library.SocketorConfig.SERVER_PORT;
+import static com.sogo.map.socketor.library.SocketorConfig.STATUS_FAILED;
+import static com.sogo.map.socketor.library.SocketorConfig.STATUS_OK;
 import static com.sogo.map.socketor.library.SocketorConfig.parseIPByInt;
 
 final public class SocketorClient extends SocketotBase {
@@ -83,17 +85,18 @@ final public class SocketorClient extends SocketotBase {
                 socket.close();
             } catch (NumberFormatException | IOException e) {
                 e.printStackTrace();
-                if (listener != null) {
-                    listener.connectFaild("Socket connect failed");
-                }
+                return SocketorMessage.obtain("Socket connect failed").setStatus(STATUS_FAILED);
             }
-            return SocketorMessage.parseMessage(result);
+            return SocketorMessage.parseMessage(result).setStatus(STATUS_OK);
         }
 
         @Override
         protected void onPostExecute(SocketorMessage s) {
-            if (listener != null) {
-                listener.sendSuccess(s);
+            if (listener != null && s != null) {
+                if (s.getStatus() == STATUS_OK)
+                    listener.sendSuccess(s);
+                else
+                    listener.connectFaild(s.getMessage());
             }
         }
     }

@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 
 public class SocketorMessage {
 
+    @SocketorConfig.StatusType
+    private int status;
     @SocketorConfig.SwitchType
     private int switchType;
     private String message;
@@ -35,4 +37,24 @@ public class SocketorMessage {
         return gson.toJson(this);
     }
 
+    public SocketorMessage setStatus(int status) {
+        this.status = status;
+        return this;
+    }
+
+    /**
+     * 获取本次通信的状态
+     * @return 0，成功；1失败
+     */
+    public int getStatus() {
+        return status;
+    }
+
+    /**
+     * 获取内容
+     * @return
+     */
+    public String getMessage() {
+        return message;
+    }
 }

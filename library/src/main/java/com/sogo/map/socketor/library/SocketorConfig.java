@@ -17,6 +17,10 @@ final public class SocketorConfig {
     @IntDef({NONE, SWITCH_AR_TO_NORMAL, SWITCH_NORMAL_TO_AR})
     public @interface SwitchType { }
 
+    public static final int STATUS_OK = 0;
+    public static final int STATUS_FAILED = 1;
+    public @interface StatusType { }
+
     /**
      * 根据int型的路网地址解析成ip地址
      * @param ip int型数据

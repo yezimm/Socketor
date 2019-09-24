@@ -18,6 +18,8 @@ import java.util.concurrent.Executors;
 
 import static com.sogo.map.socketor.library.SocketorConfig.SERVER_NAME;
 import static com.sogo.map.socketor.library.SocketorConfig.SERVER_PORT;
+import static com.sogo.map.socketor.library.SocketorConfig.STATUS_FAILED;
+import static com.sogo.map.socketor.library.SocketorConfig.STATUS_OK;
 
 final public class SocketorServer extends SocketotBase {
 
@@ -55,6 +57,13 @@ final public class SocketorServer extends SocketotBase {
     }
 
     /**
+     * 不需要时，删除socket server
+     */
+    public void onStop() {
+        flag = false;
+    }
+
+    /**
      * AsyncTask which handles the communication with clients
      */
     private static class ServerAsyncTask extends AsyncTask<Socket, Void, SocketorMessage> {
@@ -85,8 +94,9 @@ final public class SocketorServer extends SocketotBase {
                 //mySocket.close();
             } catch (IOException e) {
                 e.printStackTrace();
+                return SocketorMessage.obtain("IO 异常").setStatus(STATUS_FAILED);
             }
-            return SocketorMessage.parseMessage(result);
+            return SocketorMessage.parseMessage(result).setStatus(STATUS_OK);
         }
 
         @Override
