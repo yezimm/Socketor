@@ -29,22 +29,24 @@ final public class SocketorClient extends SocketotBase {
         this.context = context;
     }
 
-    public void setClientListener(SocketorClientListener listener) {
+    public SocketorClient setClientListener(SocketorClientListener listener) {
         this.listener = listener;
+        return this;
     }
 
-    public void sendMessage(@SocketorConfig.SwitchType int switchType, String message) {
+    public SocketorClient sendMessage(@SocketorConfig.SwitchType int switchType, String message) {
         final WifiManager myWifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (myWifiManager == null) {
             Log.e(TAG, "Wifi Manager 获取不到");
             if (listener != null) {
                 listener.connectFaild("Wifi Manager 获取不到");
             }
-            return;
+            return this;
         }
         ClientAsyncTask clientAST = new ClientAsyncTask(listener);
         clientAST.execute(parseIPByInt(myWifiManager.getDhcpInfo().gateway), String.valueOf(SERVER_PORT),
                 SocketorMessage.obtain(switchType, message).toJson());
+        return this;
     }
 
     /**

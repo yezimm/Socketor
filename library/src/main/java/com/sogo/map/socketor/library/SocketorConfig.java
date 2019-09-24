@@ -6,8 +6,9 @@ import com.google.gson.Gson;
 
 final public class SocketorConfig {
 
-    final static int SERVER_PORT = 8080;
-    static final String SERVER_NAME = "SocketorServer";
+    public final static int SERVER_PORT = 8080;
+    public final static String SERVER_NAME = "SocketorServer";
+    public final static String CLIENT_NAME = "SocketorClient";
 
     public static final int NONE = 0;
     public static final int SWITCH_NORMAL_TO_AR = 1;

@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
 import static com.sogo.map.socketor.library.SocketorConfig.SERVER_NAME;
 import static com.sogo.map.socketor.library.SocketorConfig.SERVER_PORT;
 
-final class SocketorServer extends SocketotBase {
+final public class SocketorServer extends SocketotBase {
 
     private boolean flag = true;
     private ServerSocket socServer = null;
@@ -49,8 +49,9 @@ final class SocketorServer extends SocketotBase {
         }
     }
 
-    public void setServerListener(SocketorServerListener listener) {
+    public SocketorServer setServerListener(SocketorServerListener listener) {
         this.listener = listener;
+        return this;
     }
 
     /**
