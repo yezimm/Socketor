@@ -57,4 +57,12 @@ public class SocketorMessage {
     public String getMessage() {
         return message;
     }
+
+    /**
+     * 获取switch类型
+     * @return switch类型
+     */
+    public int getSwitchType() {
+        return switchType;
+    }
 }
