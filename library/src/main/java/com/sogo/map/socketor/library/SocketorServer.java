@@ -1,10 +1,6 @@
 package com.sogo.map.socketor.library;
 
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Message;
-
-import androidx.annotation.NonNull;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,34 +20,50 @@ import static com.sogo.map.socketor.library.SocketorConfig.STATUS_OK;
 final public class SocketorServer extends SocketotBase {
 
     private boolean flag = true;
-    private ServerSocket socServer = null;
+    private ServerSocket socServer;
     private SocketorServerListener listener;
+    private ExecutorService executorService;
 
     SocketorServer() {
-        try {
-            socServer = new ServerSocket(SERVER_PORT);
+        create();
+    }
+
+    /**
+     * 创建 SocketServer，搭建server的循环等待
+     * 如果disconnect，或者Socket创建失败可以调用create重新创建
+     */
+    public void create() {
+        if (socServer == null) {
+            try {
+                socServer = new ServerSocket(SERVER_PORT);
+            } catch (IOException e) {
+                e.printStackTrace();
+                listener.disconnect("Server socket create fail");
+                return;
+            }
+        }
+        if (executorService == null) {
             // 启用一个核心线程
-            ExecutorService executorService = Executors.newSingleThreadExecutor();
-            executorService.submit(new Runnable() {
-                @Override
-                public void run() {
-                    try {
+            executorService = Executors.newSingleThreadExecutor();
+        }
+        executorService.submit(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (socServer != null)
                         while (flag) {
                             Socket socClient = socServer.accept();
                             ServerAsyncTask serverAsyncTask = new ServerAsyncTask(listener);
                             serverAsyncTask.execute(socClient);
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        if (listener != null) {
-                            listener.disconnect("Server socket disconnect");
-                        }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    if (listener != null) {
+                        listener.disconnect("Server socket disconnect");
                     }
                 }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            }
+        });
     }
 
     public SocketorServer setServerListener(SocketorServerListener listener) {
