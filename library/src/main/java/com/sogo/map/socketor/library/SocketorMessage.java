@@ -9,6 +9,9 @@ public class SocketorMessage {
     @SocketorConfig.SwitchType
     private int switchType;
     private String message;
+    // 预留字段，方便使用
+    public int args1 = -1;
+    public int args2 = -1;
 
     private SocketorMessage(int switchType, String message) {
         this.switchType = switchType;
