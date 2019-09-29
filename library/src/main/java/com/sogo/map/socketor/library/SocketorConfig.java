@@ -1,8 +1,5 @@
 package com.sogo.map.socketor.library;
 
-import androidx.annotation.IntDef;
-
-import com.google.gson.Gson;
 
 final public class SocketorConfig {
 
@@ -14,12 +11,9 @@ final public class SocketorConfig {
     public static final int SWITCH_NORMAL_TO_AR = 1;
     public static final int SWITCH_AR_TO_NORMAL = 2;
 
-    @IntDef({NONE, SWITCH_AR_TO_NORMAL, SWITCH_NORMAL_TO_AR})
-    public @interface SwitchType { }
 
     public static final int STATUS_OK = 0;
     public static final int STATUS_FAILED = 1;
-    public @interface StatusType { }
 
     /**
      * 根据int型的路网地址解析成ip地址

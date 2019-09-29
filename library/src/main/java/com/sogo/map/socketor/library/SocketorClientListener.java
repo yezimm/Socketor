@@ -1,7 +1,5 @@
 package com.sogo.map.socketor.library;
 
-import androidx.annotation.NonNull;
-
 public interface SocketorClientListener {
 
     /**
@@ -14,6 +12,6 @@ public interface SocketorClientListener {
      * 连接成功
      * @param message  服务端返回的数据
      */
-    void sendSuccess(@NonNull SocketorMessage message);
+    void sendSuccess(SocketorMessage message);
 
 }

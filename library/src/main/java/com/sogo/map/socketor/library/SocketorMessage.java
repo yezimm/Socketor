@@ -4,9 +4,7 @@ import com.google.gson.Gson;
 
 public class SocketorMessage {
 
-    @SocketorConfig.StatusType
     private int status;
-    @SocketorConfig.SwitchType
     private int switchType;
     private String message;
     // 预留字段，方便使用
