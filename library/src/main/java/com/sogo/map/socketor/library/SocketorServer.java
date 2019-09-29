@@ -19,12 +19,13 @@ import static com.sogo.map.socketor.library.SocketorConfig.STATUS_OK;
 
 final public class SocketorServer extends SocketotBase {
 
-    private boolean flag = true;
+    private boolean flag;
     private ServerSocket socServer;
     private SocketorServerListener listener;
     private ExecutorService executorService;
 
     SocketorServer() {
+        flag = true;
         create();
     }
 
@@ -38,7 +39,9 @@ final public class SocketorServer extends SocketotBase {
                 socServer = new ServerSocket(SERVER_PORT);
             } catch (IOException e) {
                 e.printStackTrace();
-                listener.disconnect("Server socket create fail");
+                if(listener != null){
+                    listener.disconnect("Server socket create fail");
+                }
                 return;
             }
         }
@@ -76,6 +79,8 @@ final public class SocketorServer extends SocketotBase {
      */
     public void onStop() {
         flag = false;
+        if(executorService != null)
+            executorService.shutdownNow();
     }
 
     /**
